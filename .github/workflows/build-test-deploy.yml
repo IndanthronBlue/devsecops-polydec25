@@ -13,6 +13,8 @@ jobs:
   build:
     needs: sast 
     runs-on: ubuntu-latest
+    env:
+      APP_PASSWORD: ${{ secrets.APP_PASSWORD }} # set environment variable for password
     steps: 
       - name: Cache Node.js modules
         uses: actions/cache@v3

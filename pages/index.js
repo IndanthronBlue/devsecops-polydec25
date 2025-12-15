@@ -3,7 +3,8 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
-const PASSWORD = "louvres2025"
+// read password from environment variable
+const PASSWORD = process.env.APP_PASSWORD;
 
 const inter = Inter({ subsets: ['latin'] })
 
