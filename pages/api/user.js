@@ -32,7 +32,8 @@ export default async function handler(req, res) {
   
   try {
     const result = await client.query(
-      query
+      'SELECT * FROM users WHERE id = ?',
+      { replacements: [req.params.userId] }
     );
     res.status(200).json({ user: result.rows[0] });
   } catch (error) {
