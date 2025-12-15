@@ -1,5 +1,5 @@
 name: build-test
-run-name: ${{ github.actor }} is building, testing, and deploying the app 🚀
+run-name: ${{ github.actor }} is building, testing the app 🚀
 
 on: push
 jobs: 
