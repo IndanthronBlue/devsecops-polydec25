@@ -1,9 +1,22 @@
-name: build-test-deploy
+name: build-test
+run-name: ${{ github.actor }} is building, testing, and deploying the app 🚀
+
 on: push
 jobs: 
   build:
     runs-on: ubuntu-latest
     steps: 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-    
       - name: checkout repo
         uses: actions/checkout@v3
       - name: use node.js
