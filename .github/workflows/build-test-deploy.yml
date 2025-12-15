@@ -52,3 +52,12 @@ jobs:
       - run: npm install
       - name: Run SCA with npm audit
         run: npm audit
+
+  sast:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: Bearer
+        uses: bearer/bearer-action@v2
