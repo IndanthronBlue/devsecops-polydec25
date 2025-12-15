@@ -17,16 +17,15 @@ export default async function handler(req, res) {
   // const userId = req.query.id;
   // const query = `SELECT * FROM users WHERE id = ${userId}`;
   // FIXED: Parameterized query to prevent SQL Injection
+ 
   const rawId = req.query.id;
-  const userId = parseInt(rawId, 10);
-
-  // validate that userId is a positive integer
-  if (!Number.isInteger(userId) || userId <= 0) {
+  // validation
+  if (!/^[0-9]+$/.test(rawId)) {
     await client.end();
     return res.status(400).json({ error: 'Invalid user id' });
   }
-
-const query = {
+  const userId = parseInt(rawId, 10);
+  const query = {
     text: 'SELECT * FROM users WHERE id = $1',
     values: [userId],
   };
