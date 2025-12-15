@@ -14,8 +14,22 @@ export default async function handler(req, res) {
   await client.connect();
 
   // VULNERABILITY: SQL Injection - user input directly concatenated into query
-  const userId = req.query.id;
-  const query = `SELECT * FROM users WHERE id = ${userId}`;
+  // const userId = req.query.id;
+  // const query = `SELECT * FROM users WHERE id = ${userId}`;
+  // FIXED: Parameterized query to prevent SQL Injection
+  const rawId = req.query.id;
+  const userId = parseInt(rawId, 10);
+
+  // validate that userId is a positive integer
+  if (!Number.isInteger(userId) || userId <= 0) {
+    await client.end();
+    return res.status(400).json({ error: 'Invalid user id' });
+  }
+
+  const query = {
+    text: 'SELECT * FROM users WHERE id = $1',
+    values: [userId],
+  };
   
   try {
     const result = await client.query(query);
