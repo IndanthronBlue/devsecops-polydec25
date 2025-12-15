@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid user id' });
   }
 
-  const query = {
+const query = {
     text: 'SELECT * FROM users WHERE id = $1',
     values: [userId],
   };
